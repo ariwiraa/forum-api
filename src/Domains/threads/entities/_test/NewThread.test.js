@@ -27,20 +27,6 @@ describe('new threads', () => {
     );
   });
 
-  it('should throw erro when title more than 50 character', () => {
-    const payload = {
-      title:
-        'ini adalah titleini adalah titleini adalah titleini adalah titleini adalah title',
-      body: 'ini adalah body',
-      owner: 'user-123',
-    };
-
-    // ACtion and Assert
-    expect(() => new NewThread(payload)).toThrowError(
-      'NEW_THREADS.TITLE_LIMIT_CHAR'
-    );
-  });
-
   it('should create new threads object correctly', () => {
     const payload = {
       title: 'ini adalah title',

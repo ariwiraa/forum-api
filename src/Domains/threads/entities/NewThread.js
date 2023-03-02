@@ -21,10 +21,6 @@ class NewThread {
     ) {
       throw new Error('NEW_THREADS.DATA_NOT_STRING');
     }
-
-    if (title.length > 50) {
-      throw new Error('NEW_THREADS.TITLE_LIMIT_CHAR');
-    }
   }
 }
 

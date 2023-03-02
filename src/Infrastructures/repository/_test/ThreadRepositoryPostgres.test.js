@@ -98,4 +98,34 @@ describe('ThreadRepositoryPostgres', () => {
       expect(getThread).toStrictEqual(expectedThread);
     });
   });
+
+  describe('is thread exist', () => {
+    const fakeIdGenerator = () => '123';
+
+    it('should throw NotFoundError if no valid id', async () => {
+      const threadId = 'thread-123';
+
+      const threadRepository = new ThreadRepositoryPostgres(
+        pool,
+        fakeIdGenerator
+      );
+
+      await expect(threadRepository.isThreadExist(threadId)).rejects.toThrow(
+        NotFoundError
+      );
+    });
+
+    it('should not throw NotFoundError if valid id', async () => {
+      const threadRepository = new ThreadRepositoryPostgres(
+        pool,
+        fakeIdGenerator
+      );
+      await UsersTableTestHelper.addUser({ id: 'user-123' });
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
+
+      await expect(
+        threadRepository.isThreadExist('thread-123')
+      ).resolves.not.toThrow(NotFoundError);
+    });
+  });
 });

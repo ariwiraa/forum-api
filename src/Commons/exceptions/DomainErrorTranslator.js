@@ -42,6 +42,13 @@ DomainErrorTranslator._directories = {
   'NEW_THREADS.DATA_NOT_STRING': new InvariantError(
     'title dan body harus bernilai string'
   ),
+
+  'ADD_COMMENT.NOT_CONTAIN_PROPERTY': new InvariantError(
+    'tidak dapat menambahkan komentar pada thread karena komentar kosong'
+  ),
+  'ADD_COMMENT.NOT_MEET_DATA_SPECIFICATION': new InvariantError(
+    'tidak dapat menambahkan komentar pada thread karena komentar tidak valid'
+  ),
 };
 
 module.exports = DomainErrorTranslator;
