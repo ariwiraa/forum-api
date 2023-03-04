@@ -7,17 +7,19 @@ const CommentsTableTestHelper = {
     id = 'comment-123',
     content = 'comment',
     owner = 'user-123',
+    threadId = 'thread-123',
     date = '2023',
+    isDeleted = false,
   }) {
     await pool.query({
-      text: 'INSERT INTO comments VALUES($1, $2, $3, $4)',
-      values: [id, content, owner, date],
+      text: 'INSERT INTO comments VALUES($1, $2, $3, $4, $5, $6)',
+      values: [id, threadId, content, owner, date, isDeleted],
     });
   },
 
   async findCommentById(id = 'comment-123') {
     const result = await pool.query({
-      text: 'SELECT FROM comments WHERE id = $1',
+      text: 'SELECT id, is_deleted FROM comments WHERE id = $1',
       values: [id],
     });
 

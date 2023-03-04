@@ -13,11 +13,15 @@ describe('Comment repository', () => {
     ).rejects.toThrowError('COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED');
 
     await expect(
-      commentsRepository.verifyCommentByOwner('')
+      commentsRepository.verifyCommentByOwner('', '')
     ).rejects.toThrowError('COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED');
 
     await expect(commentsRepository.deleteComment('')).rejects.toThrowError(
       'COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED'
     );
+
+    await expect(
+      commentsRepository.isCommentExist('', '')
+    ).rejects.toThrowError('COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   });
 });

@@ -3,7 +3,7 @@ class CommentsRepository {
     throw new Error('COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
-  async verifyCommentByOwner(owner) {
+  async verifyCommentByOwner(id, owner) {
     throw new Error('COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 
@@ -12,6 +12,10 @@ class CommentsRepository {
   }
 
   async findAllCommentsByThreadId(threadId) {
+    throw new Error('COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED');
+  }
+
+  async isCommentExist(threadId, id) {
     throw new Error('COMMENTS_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 }
