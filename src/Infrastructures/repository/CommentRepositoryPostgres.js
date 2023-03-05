@@ -2,6 +2,7 @@ const CommentRepository = require('../../Domains/comments/CommentsRepository');
 const AddedComment = require('../../Domains/comments/entities/AddedComment');
 const AuthorizationError = require('../../Commons/exceptions/AuthorizationError');
 const NotFoundError = require('../../Commons/exceptions/NotFoundError');
+const DetailComment = require('../../Domains/comments/entities/DetailComment');
 
 class CommentRepositoryPostgres extends CommentRepository {
   constructor(pool, idGenerator) {
@@ -58,6 +59,18 @@ class CommentRepositoryPostgres extends CommentRepository {
     if (!rowCount) {
       throw new NotFoundError('komentar tidak ditemukan');
     }
+  }
+
+  async findAllCommentsByThreadId(threadId) {
+    const query = {
+      text: `SELECT comments.id, comments.content, comments.date, comments.is_deleted, users.username FROM comments INNER JOIN users ON comments.owner = users.id WHERE comments.thread_id = $1 ORDER BY comments.date ASC`,
+      values: [threadId],
+    };
+
+    const { rows } = await this._pool.query(query);
+    return rows.map(
+      (input) => new DetailComment({ ...input, isDeleted: input.is_deleted })
+    );
   }
 }
 

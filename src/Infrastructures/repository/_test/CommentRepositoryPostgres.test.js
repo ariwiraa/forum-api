@@ -2,6 +2,7 @@ const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
+const DetailComment = require('../../../Domains/comments/entities/DetailComment');
 const pool = require('../../database/postgres/pool');
 const AddComment = require('../../../Domains/comments/entities/AddComment');
 const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
@@ -169,6 +170,46 @@ describe('comment repository postgres', () => {
       await expect(
         commentRepository.isCommentExist(threadId, commentId)
       ).resolves.not.toThrow(NotFoundError);
+    });
+  });
+
+  describe('find all comments by thread id', () => {
+    it('should return all comments', async () => {
+      const firstComment = {
+        id: 'comment-123',
+        content: 'komentar 1',
+        isDeleted: false,
+        date: '2023',
+      };
+      const secondComment = {
+        id: 'comment-124',
+        content: 'komentar 2',
+        isDeleted: false,
+        date: '2023',
+      };
+
+      await UsersTableTestHelper.addUser({ username: 'ariwiraa' });
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
+      await CommentsTableTestHelper.addComment({
+        ...firstComment,
+        owner: 'user-123',
+        threadId: 'thread-123',
+      });
+      await CommentsTableTestHelper.addComment({
+        ...secondComment,
+        owner: 'user-123',
+        threadId: 'thread-123',
+      });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      const comments =
+        await commentRepositoryPostgres.findAllCommentsByThreadId('thread-123');
+
+      expect(comments).toEqual([
+        new DetailComment({ ...firstComment, username: 'ariwiraa' }),
+        new DetailComment({ ...secondComment, username: 'ariwiraa' }),
+      ]);
     });
   });
 });

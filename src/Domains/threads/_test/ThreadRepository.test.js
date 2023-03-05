@@ -10,5 +10,8 @@ describe('thread repository', () => {
     await expect(threadRepository.isThreadExist('')).rejects.toThrowError(
       'THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED'
     );
+    await expect(threadRepository.findThreadById('')).rejects.toThrowError(
+      'THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED'
+    );
   });
 });

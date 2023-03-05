@@ -11,9 +11,6 @@ const createServer = async (container) => {
   const server = Hapi.server({
     host: process.env.HOST,
     port: process.env.PORT,
-    debug: {
-      log: ['error'],
-    },
   });
 
   /* Register plugin eksternal */
@@ -84,7 +81,7 @@ const createServer = async (container) => {
         status: 'error',
         message: 'terjadi kegagalan pada server kami',
       });
-      // console.error(response);
+
       newResponse.code(500);
       return newResponse;
     }

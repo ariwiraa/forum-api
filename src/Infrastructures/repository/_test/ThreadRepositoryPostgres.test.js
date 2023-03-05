@@ -77,4 +77,58 @@ describe('ThreadRepositoryPostgres', () => {
       ).resolves.not.toThrow(NotFoundError);
     });
   });
+
+  describe('get thread by id', () => {
+    const fakeIdGenerator = () => '123';
+    it('should return not found error when thread is not found', async () => {
+      // arrange
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+      await UsersTableTestHelper.addUser({ id: 'user-123' });
+      await ThreadsTableTestHelper.addThread({
+        id: 'thread-123',
+        owner: 'user-123',
+      });
+
+      // action & assert
+      await expect(
+        threadRepositoryPostgres.findThreadById('thread-111')
+      ).rejects.toThrowError(NotFoundError);
+    });
+
+    it('should not return not found error when thread is found', async () => {
+      const addThread = {
+        id: 'thread-123',
+        title: 'title',
+        body: 'body',
+        date: '2023',
+        owner: 'user-123',
+      };
+
+      const expectedThread = {
+        id: 'thread-123',
+        title: 'title',
+        body: 'body',
+        date: '2023',
+        username: 'ariwiraa',
+      };
+
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(
+        pool,
+        fakeIdGenerator
+      );
+      await UsersTableTestHelper.addUser({
+        id: 'user-123',
+        username: 'ariwiraa',
+      });
+      await ThreadsTableTestHelper.addThread(addThread);
+
+      // action
+      const thread = await threadRepositoryPostgres.findThreadById(
+        'thread-123'
+      );
+
+      // assert
+      expect(thread).toStrictEqual(expectedThread);
+    });
+  });
 });
