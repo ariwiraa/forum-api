@@ -7,6 +7,7 @@ const pool = require('../../database/postgres/pool');
 const AddComment = require('../../../Domains/comments/entities/AddComment');
 const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
+const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 
 describe('comment repository postgres', () => {
   afterEach(async () => {
@@ -54,11 +55,17 @@ describe('comment repository postgres', () => {
         addComment
       );
 
-      // Assert
       const comment = await CommentsTableTestHelper.findCommentById(
         addedComment.id
       );
-
+      // Assert
+      expect(addedComment).toStrictEqual(
+        new AddedComment({
+          id: 'comment-123',
+          owner: addComment.owner,
+          content: addComment.content,
+        })
+      );
       expect(comment).toBeDefined();
     });
   });
@@ -185,7 +192,7 @@ describe('comment repository postgres', () => {
         id: 'comment-124',
         content: 'komentar 2',
         isDeleted: false,
-        date: '2023',
+        date: '2024',
       };
 
       await UsersTableTestHelper.addUser({ username: 'ariwiraa' });

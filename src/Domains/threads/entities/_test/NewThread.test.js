@@ -35,10 +35,11 @@ describe('new threads', () => {
     };
 
     // Action
-    const { title, body } = new NewThread(payload);
+    const { title, body, owner } = new NewThread(payload);
 
     // assert
     expect(title).toEqual(payload.title);
     expect(body).toEqual(payload.body);
+    expect(owner).toEqual(payload.owner);
   });
 });

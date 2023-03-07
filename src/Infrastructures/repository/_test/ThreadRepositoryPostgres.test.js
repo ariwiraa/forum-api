@@ -4,6 +4,7 @@ const pool = require('../../database/postgres/pool');
 const NewThread = require('../../../Domains/threads/entities/NewThread');
 const ThreadRepositoryPostgres = require('../ThreadRepositoryPostgres');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
+const AddedThread = require('../../../Domains/threads/entities/AddedThread');
 
 describe('ThreadRepositoryPostgres', () => {
   afterEach(async () => {
@@ -45,6 +46,13 @@ describe('ThreadRepositoryPostgres', () => {
         addedThread.id
       );
       expect(threads).toBeDefined();
+      expect(addedThread).toStrictEqual(
+        new AddedThread({
+          id: 'thread-123',
+          title: newThread.title,
+          owner: newThread.owner,
+        })
+      );
     });
   });
 

@@ -30,13 +30,29 @@ describe('detail comment', () => {
     );
   });
 
-  it('should create detail comment object correctly', () => {
+  it('should create detail comment object correctly when isDeleted is false', () => {
     const payload = {
       id: 'comment-123',
       username: 'ariwiraa',
       date: '2023',
       content: 'komentar',
       isDeleted: false,
+    };
+
+    const detailComment = new DetailComment(payload);
+    expect(detailComment.id).toEqual(payload.id);
+    expect(detailComment.username).toEqual(payload.username);
+    expect(detailComment.date).toEqual(payload.date);
+    expect(detailComment.content).toEqual(payload.content);
+  });
+
+  it('should create detail comment object correctly when isDeleted is true', () => {
+    const payload = {
+      id: 'comment-123',
+      username: 'ariwiraa',
+      date: '2023',
+      content: '**komentar telah dihapus**',
+      isDeleted: true,
     };
 
     const detailComment = new DetailComment(payload);

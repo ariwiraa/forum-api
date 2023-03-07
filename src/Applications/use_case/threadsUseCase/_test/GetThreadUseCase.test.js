@@ -10,14 +10,14 @@ describe('detail thread', () => {
       threadId: 'thread-123',
     };
 
-    const expectedThreadDetails = new DetailThread({
+    const expectedThreadDetails = {
       id: 'thread-123',
       title: 'title',
       body: 'body',
       date: '2023',
       username: 'ariwiraa',
       comments: [],
-    });
+    };
 
     const comments = [
       new DetailComment({
@@ -58,7 +58,12 @@ describe('detail thread', () => {
     const detailThread = await getThreadUseCase.execute(useCaseParam);
 
     // assert
-    expect(detailThread).toEqual({ ...expectedThreadDetails, comments });
+    expect(detailThread).toEqual(
+      new DetailThread({
+        ...expectedThreadDetails,
+        comments,
+      })
+    );
     expect(mockThreadRepository.findThreadById).toBeCalledWith(
       useCaseParam.threadId
     );
