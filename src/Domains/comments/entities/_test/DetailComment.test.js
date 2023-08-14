@@ -51,7 +51,7 @@ describe('detail comment', () => {
       id: 'comment-123',
       username: 'ariwiraa',
       date: '2023',
-      content: '**komentar telah dihapus**',
+      content: 'komentar',
       isDeleted: true,
     };
 
@@ -59,6 +59,6 @@ describe('detail comment', () => {
     expect(detailComment.id).toEqual(payload.id);
     expect(detailComment.username).toEqual(payload.username);
     expect(detailComment.date).toEqual(payload.date);
-    expect(detailComment.content).toEqual(payload.content);
+    expect(detailComment.content).toEqual('**komentar telah dihapus**');
   });
 });

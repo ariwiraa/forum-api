@@ -108,7 +108,6 @@ describe('ThreadRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'title',
         body: 'body',
-        date: '2023',
         owner: 'user-123',
       };
 
@@ -116,7 +115,7 @@ describe('ThreadRepositoryPostgres', () => {
         id: 'thread-123',
         title: 'title',
         body: 'body',
-        date: '2023',
+        date: '2023-03-17T11:41:00.000Z',
         username: 'ariwiraa',
       };
 

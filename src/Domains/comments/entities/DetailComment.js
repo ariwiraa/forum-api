@@ -10,8 +10,8 @@ class DetailComment {
     this.content = isDeleted ? '**komentar telah dihapus**' : content;
   }
 
-  _verifyPayload({ id, content, username, date, isDeleted }) {
-    if (!id || !content || !username || !date) {
+  _verifyPayload({ id, content, username, date }) {
+    if (!id || !content || !username) {
       throw new Error('DETAIL_COMMENT.NOT_CONTAIN_PROPERTY');
     }
 

@@ -140,7 +140,6 @@ describe('/threads endpoint', () => {
         id: 'comment-123',
         threadId,
         owner: 'user-123',
-        date: '2020',
       });
       await CommentsTableTestHelper.addComment({
         id: 'comment-111',

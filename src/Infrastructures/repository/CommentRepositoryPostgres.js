@@ -14,16 +14,15 @@ class CommentRepositoryPostgres extends CommentRepository {
   async addComment(payload) {
     const { owner, content, threadId } = payload;
     const id = `comment-${this._idGenerator()}`;
-    const date = new Date().toISOString();
 
     const query = {
-      text: 'INSERT INTO comments VALUES ($1, $2, $3, $4, $5) RETURNING id, content, owner',
-      values: [id, threadId, content, owner, date],
+      text: 'INSERT INTO comments VALUES ($1, $2, $3, $4) RETURNING id, content, owner',
+      values: [id, threadId, content, owner],
     };
 
     const { rows } = await this._pool.query(query);
 
-    return new AddedComment({ ...rows[0] });
+    return new AddedComment(rows[0]);
   }
 
   async deleteComment(id) {
@@ -73,7 +72,8 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     const { rows } = await this._pool.query(query);
     return rows.map(
-      (input) => new DetailComment({ ...input, isDeleted: input.is_deleted })
+      (comments) =>
+        new DetailComment({ ...comments, date: comments.date.toISOString() })
     );
   }
 }

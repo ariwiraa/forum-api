@@ -12,25 +12,24 @@ describe('detail thread', () => {
 
     const expectedThreadDetails = {
       id: 'thread-123',
-      title: 'title',
+      title: 'title ini',
       body: 'body',
-      date: '2023',
+      date: '2023-03-17T18:41:00',
       username: 'ariwiraa',
-      comments: [],
     };
 
     const comments = [
       new DetailComment({
         id: 'comment-123',
         content: 'komentar 1',
-        date: '2023',
+        date: '2023-03-17T18:41:00',
         username: 'dicoding',
         isDeleted: false,
       }),
       new DetailComment({
         id: 'comment-124',
         content: 'komentar 2',
-        date: '2021',
+        date: '2023-04-16T17:00:00.000Z',
         username: 'atmaja',
         isDeleted: true,
       }),
@@ -41,12 +40,12 @@ describe('detail thread', () => {
     const mockCommentRepository = new CommentsRepository();
 
     // mocking needed function
-    mockThreadRepository.findThreadById = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve(expectedThreadDetails));
-    mockCommentRepository.findAllCommentsByThreadId = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve(comments));
+    mockThreadRepository.findThreadById = jest.fn(() =>
+      Promise.resolve(expectedThreadDetails)
+    );
+    mockCommentRepository.findAllCommentsByThreadId = jest.fn(() =>
+      Promise.resolve(comments)
+    );
 
     // creating use case instance
     const getThreadUseCase = new GetThreadUseCase({
@@ -58,12 +57,10 @@ describe('detail thread', () => {
     const detailThread = await getThreadUseCase.execute(useCaseParam);
 
     // assert
-    expect(detailThread).toEqual(
-      new DetailThread({
-        ...expectedThreadDetails,
-        comments,
-      })
-    );
+    expect(detailThread).toEqual({
+      ...expectedThreadDetails,
+      comments,
+    });
     expect(mockThreadRepository.findThreadById).toBeCalledWith(
       useCaseParam.threadId
     );

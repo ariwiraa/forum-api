@@ -8,7 +8,7 @@ const CommentsTableTestHelper = {
     content = 'comment',
     owner = 'user-123',
     threadId = 'thread-123',
-    date = '2023',
+    date = new Date().toISOString(),
     isDeleted = false,
   }) {
     await pool.query({
