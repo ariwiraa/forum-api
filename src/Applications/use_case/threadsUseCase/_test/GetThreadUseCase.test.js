@@ -41,8 +41,15 @@ describe('detail thread', () => {
 
     // mocking needed function
     mockThreadRepository.findThreadById = jest.fn(() =>
-      Promise.resolve(expectedThreadDetails)
+      Promise.resolve({
+        id: 'thread-123',
+        title: 'title ini',
+        body: 'body',
+        date: '2023-03-17T18:41:00',
+        username: 'ariwiraa',
+      })
     );
+
     mockCommentRepository.findAllCommentsByThreadId = jest.fn(() =>
       Promise.resolve(comments)
     );
