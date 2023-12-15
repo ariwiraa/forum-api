@@ -6,7 +6,6 @@ describe('detail comment', () => {
     const payload = {
       id: 'comment-123',
       username: 'ariwiraa',
-      date: '2023',
     };
 
     // action & assert
@@ -19,8 +18,7 @@ describe('detail comment', () => {
     const payload = {
       id: 'thread-123',
       username: 'ariwiraa',
-      date: 2021,
-      content: 'komentar',
+      content: 123,
       isDeleted: false,
     };
 
@@ -34,7 +32,6 @@ describe('detail comment', () => {
     const payload = {
       id: 'comment-123',
       username: 'ariwiraa',
-      date: '2023',
       content: 'komentar',
       isDeleted: false,
     };
@@ -50,7 +47,6 @@ describe('detail comment', () => {
     const payload = {
       id: 'comment-123',
       username: 'ariwiraa',
-      date: '2023',
       content: 'komentar',
       isDeleted: true,
     };

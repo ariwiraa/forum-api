@@ -182,12 +182,10 @@ describe('comment repository postgres', () => {
 
       const comments =
         await commentRepositoryPostgres.findAllCommentsByThreadId('thread-123');
-      console.log(comments);
-      console.log(firstComment);
 
       expect(comments).toEqual([
-        new DetailComment({ ...secondComment, username: 'dicoding' }),
         new DetailComment({ ...firstComment, username: 'dicoding' }),
+        new DetailComment({ ...secondComment, username: 'dicoding' }),
       ]);
     });
   });
