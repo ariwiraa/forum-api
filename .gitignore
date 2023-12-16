@@ -4,3 +4,4 @@ coverage
 config/database/test.json
 package-lock.json
 forum-api-app-server.pem
+konfigurasi-nginx
