@@ -8,8 +8,20 @@ class GetThreadUseCase {
     const { threadId } = useCaseParam;
 
     const detailThread = await this._threadRepository.findThreadById(threadId);
-    detailThread.comments =
-      await this._commentRepository.findAllCommentsByThreadId(threadId);
+    const comments = await this._commentRepository.findAllCommentsByThreadId(
+      threadId
+    );
+
+    const formattedComments = comments.map((comment) => ({
+      id: comment.id,
+      content: comment.is_deleted
+        ? '**komentar telah dihapus**'
+        : comment.content,
+      username: comment.username,
+      date: comment.date,
+    }));
+
+    detailThread.comments = formattedComments;
 
     return detailThread;
   }
