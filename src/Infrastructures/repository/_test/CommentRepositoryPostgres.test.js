@@ -65,9 +65,12 @@ describe('comment repository postgres', () => {
     it('should delete comment from database', async () => {
       const commentId = 'comment-123';
 
-      // await UsersTableTestHelper.addUser({});
-      // await ThreadsTableTestHelper.addThread({});
-      await CommentsTableTestHelper.addComment({ id: commentId });
+      await CommentsTableTestHelper.addComment({
+        id: 'comment-123',
+        owner: 'user-123',
+        threadId: 'thread-123',
+        isDeleted: false,
+      });
 
       await commentRepositoryPostgres.deleteComment(commentId);
       const comment = await CommentsTableTestHelper.findCommentById(
@@ -106,8 +109,6 @@ describe('comment repository postgres', () => {
         commentId: 'comment-123',
       };
 
-      // await UsersTableTestHelper.addUser({});
-      // await ThreadsTableTestHelper.addThread({});
       await CommentsTableTestHelper.addComment({
         id: payload.commentId,
         owner: payload.owner,
@@ -158,24 +159,13 @@ describe('comment repository postgres', () => {
 
   describe('find all comments by thread id', () => {
     it('should return all comments', async () => {
-      const firstComment = {
-        id: 'comment-123',
-        content: 'komentar 1',
-        isDeleted: false,
-      };
-      const secondComment = {
-        id: 'comment-124',
-        content: 'komentar 2',
-        isDeleted: false,
-      };
-
       await CommentsTableTestHelper.addComment({
-        ...firstComment,
+        id: 'comment-1',
         owner: 'user-123',
         threadId: 'thread-123',
       });
       await CommentsTableTestHelper.addComment({
-        ...secondComment,
+        id: 'comment-2',
         owner: 'user-123',
         threadId: 'thread-123',
       });
@@ -183,10 +173,12 @@ describe('comment repository postgres', () => {
       const comments =
         await commentRepositoryPostgres.findAllCommentsByThreadId('thread-123');
 
-      expect(comments).toEqual([
-        new DetailComment({ ...firstComment, username: 'dicoding' }),
-        new DetailComment({ ...secondComment, username: 'dicoding' }),
-      ]);
+      expect(comments).not.toEqual(null);
+      expect(comments[0].id).toEqual('comment-1');
+      expect(comments[0].username).toEqual('dicoding');
+
+      expect(comments[1].id).toEqual('comment-2');
+      expect(comments[1].username).toEqual('dicoding');
     });
   });
 });

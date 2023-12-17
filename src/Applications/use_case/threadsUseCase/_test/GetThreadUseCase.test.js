@@ -19,20 +19,16 @@ describe('detail thread', () => {
     };
 
     const comments = [
-      new DetailComment({
+      {
         id: 'comment-123',
         content: 'komentar 1',
-        date: '2023-03-17T18:41:00',
         username: 'dicoding',
-        isDeleted: false,
-      }),
-      new DetailComment({
+      },
+      {
         id: 'comment-124',
         content: 'komentar 2',
-        date: '2023-04-16T17:00:00.000Z',
         username: 'atmaja',
-        isDeleted: true,
-      }),
+      },
     ];
 
     // creating dependency of use case
