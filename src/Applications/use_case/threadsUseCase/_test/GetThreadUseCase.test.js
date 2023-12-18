@@ -64,6 +64,69 @@ describe('detail thread', () => {
       ...expectedThreadDetails,
       comments,
     });
+
+    expect(mockThreadRepository.findThreadById).toBeCalledWith(
+      useCaseParam.threadId
+    );
+    expect(mockCommentRepository.findAllCommentsByThreadId).toBeCalledWith(
+      useCaseParam.threadId
+    );
+  });
+
+  it('should orchestrating the detail thread action correctly when comment is deleted true', async () => {
+    const useCaseParam = {
+      threadId: 'thread-123',
+    };
+
+    const comments = [
+      {
+        id: 'comment-123',
+        content: 'komentar 1',
+        username: 'dicoding',
+        is_deleted: false,
+      },
+      {
+        id: 'comment-124',
+        content: 'komentar 2',
+        username: 'atmaja',
+        is_deleted: true,
+      },
+    ];
+
+    // creating dependency of use case
+    const mockThreadRepository = new ThreadRepository();
+    const mockCommentRepository = new CommentsRepository();
+
+    // mocking needed function
+    mockThreadRepository.findThreadById = jest.fn(() =>
+      Promise.resolve({
+        id: 'thread-123',
+        title: 'title ini',
+        body: 'body',
+        date: '2023-03-17T18:41:00',
+        username: 'ariwiraa',
+      })
+    );
+
+    mockCommentRepository.findAllCommentsByThreadId = jest.fn(() =>
+      Promise.resolve(comments)
+    );
+
+    // creating use case instance
+    const getThreadUseCase = new GetThreadUseCase({
+      threadRepository: mockThreadRepository,
+      commentRepository: mockCommentRepository,
+    });
+
+    // action
+    const detailThread = await getThreadUseCase.execute(useCaseParam);
+    console.log(detailThread);
+    // assert
+
+    expect(detailThread.comments[0].content).toEqual('komentar 1');
+    expect(detailThread.comments[1].content).toEqual(
+      '**komentar telah dihapus**'
+    );
     expect(mockThreadRepository.findThreadById).toBeCalledWith(
       useCaseParam.threadId
     );
